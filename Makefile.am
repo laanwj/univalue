@@ -20,7 +20,7 @@ libunivalue_la_LDFLAGS = \
 	-no-undefined
 libunivalue_la_CXXFLAGS = -I$(top_srcdir)/include
 
-TESTS = test/unitester
+TESTS = test/unitester test/unifuzz
 
 GENBIN = gen/gen$(BUILD_EXEEXT)
 GEN_SRCS = gen/gen.cpp
@@ -89,5 +89,10 @@ TEST_FILES = \
 	$(TEST_DATA_DIR)/pass3.json \
 	$(TEST_DATA_DIR)/round1.json \
 	$(TEST_DATA_DIR)/round2.json
+
+test_unifuzz_SOURCES = test/unifuzz.cpp
+test_unifuzz_LDADD = libunivalue.la
+test_unifuzz_CXXFLAGS = -I$(top_srcdir)/include -DJSON_TEST_SRC=\"$(srcdir)/$(TEST_DATA_DIR)\"
+test_unifuzz_LDFLAGS = -static $(LIBTOOL_APP_LDFLAGS)
 
 EXTRA_DIST=$(TEST_FILES) $(GEN_SRCS)
